@@ -1,6 +1,6 @@
 # area51
 
-### simple secrets management
+## aws cli secrets management
 ```
 KMS_ALIAS=<KMS_ALIAS>
 S3_BUCKET=<S3_BUCKET>
@@ -16,7 +16,7 @@ aws kms decrypt --ciphertext-blob fileb://secrets.s3.bin --output text --query P
 
 ```
 
-### simple envelope encryption
+## aws cli envelope encryption
 ```
 aws kms generate-data-key --key-id alias/2701 --key-spec AES_256 --output json
 echo 'aYwzrJ7LxVe2aZnaTxXYER7LTo9waIYNliRC0ba/JrQ=' | base64 --decode > ~/tmp/plaintext_key_decoded.txt
@@ -30,7 +30,7 @@ cat ~/tmp/encrypted.txt |openssl enc -d -aes256 -k fileb://home/jarmitage/tmp/pl
 
 ```
 
-### aws encryption sdk python
+## aws encryption sdk python
 ```
 pip install --user aws-encryption-sdk
 ```
@@ -40,7 +40,7 @@ pip install --user aws-encryption-sdk
 python aws_crypto.py
 ```
 
-### aws boto3 python
+## aws boto3 python
 ```
 pip install --user boto3
 pip install --user pycrypto
@@ -52,12 +52,12 @@ pip install --user pycrypto
 python aws_envelope_crypto.py
 ```
 
-### TODO
+## TODO
 1. pycrypto does not support AES.MODE_GCM; investigate pycryptodome
     * https://github.com/wolf43/AES-GCM-example/blob/master/aes_gcm.py
     * http://pycryptodome.readthedocs.io/en/latest/src/introduction.html
 
-### REFS
+## REFS
 1. https://gist.github.com/Spaider/8fd0c97fd4785011032bc8144d00b8cc
 2. https://boto3.readthedocs.io/en/latest/reference/services/kms.html#client
 3. https://www.dlitz.net/software/pycrypto/
