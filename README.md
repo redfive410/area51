@@ -34,8 +34,9 @@ cat ~/tmp/encrypted.txt |openssl enc -d -aes256 -k fileb://home/jarmitage/tmp/pl
 ```
 pip install --user aws-encryption-sdk
 ```
-
+[aws_crypto.py](aws_crypto.py)
 #### encryption example
+
 ```
 python aws_crypto.py
 ```
@@ -53,8 +54,8 @@ python aws_envelope_crypto.py
 
 ### TODO
 1. pycrypto does not support AES.MODE_GCM; investigate pycryptodome
-  * https://github.com/wolf43/AES-GCM-example/blob/master/aes_gcm.py
-  * http://pycryptodome.readthedocs.io/en/latest/src/introduction.html
+    * https://github.com/wolf43/AES-GCM-example/blob/master/aes_gcm.py
+    * http://pycryptodome.readthedocs.io/en/latest/src/introduction.html
 
 ### REFS
 1. https://gist.github.com/Spaider/8fd0c97fd4785011032bc8144d00b8cc
