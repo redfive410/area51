@@ -37,86 +37,26 @@ pip install --user aws-encryption-sdk
 
 #### encryption example
 ```
-import aws_encryption_sdk
-
-kms_key_provider = aws_encryption_sdk.KMSMasterKeyProvider(key_ids=[
-    'arn:aws:kms:us-west-2:0000000000000:key/00000000-0000-0000-0000-000000000000'
-])
-my_plaintext = 'This is some super secret data!  Yup, sure is!'
-
-my_ciphertext, encryptor_header = aws_encryption_sdk.encrypt(
-    source=my_plaintext,
-    key_provider=kms_key_provider
-)
-
-decrypted_plaintext, decryptor_header = aws_encryption_sdk.decrypt(
-    source=my_ciphertext,
-    key_provider=kms_key_provider
-)
-print(my_plaintext)
-print(decrypted_plaintext)
-
-assert my_plaintext == decrypted_plaintext
-assert encryptor_header.encryption_context == decryptor_header.encryption_context
+python aws_crypto.py
 ```
 
 ### aws boto3 python
 ```
 pip install --user boto3
+pip install --user pycrypto
 ```
 
 #### envelope encryption example
 ```
-#!/usr/bin/env python
-import base64
-import boto3
-
-from Crypto.Cipher import AES
-
-pad = lambda s: s + (32 - len(s) % 32) * ' '
-
-def encrypt_data(aws_data, plaintext_message):
-    kms = boto3.client('kms')
-
-    data_key = kms.generate_data_key(KeyId=aws_data['key_id'], KeySpec='AES_256')
-    ciphertext_blob = data_key.get('CiphertextBlob')
-    plaintext_key = data_key.get('Plaintext')
-
-    # Note, does not use IV or specify mode... for demo purposes only.
-    crypter = AES.new(plaintext_key)
-    encrypted_data = base64.b64encode(crypter.encrypt(pad(plaintext_message)))
-
-    # Need to preserve both of these data elements
-    return encrypted_data, ciphertext_blob
-
-def decrypt_data(aws_data, encrypted_data, ciphertext_blob):
-    kms = boto3.client('kms')
-
-    decrypted_key = kms.decrypt(CiphertextBlob=ciphertext_blob).get('Plaintext')
-    crypter = AES.new(decrypted_key)
-
-    return crypter.decrypt(base64.b64decode(encrypted_data)).rstrip()
-
-
-def main():
-    # Add your account number / region / KMS Key ID here.
-    aws_data = {
-        'region': 'us-west-2',
-        'account_number': '0000000000000',
-        'key_id': '00000000-0000-0000-0000-000000000000',
-    }
-
-    # And your super sekret message to envelope encrypt...
-    plaintext = 'Hello, World!'
-
-    # Store encrypted_data & ciphertext_blob in your persistent storage. You will need them both later.
-    encrypted_data, ciphertext_blob = encrypt_data(aws_data, plaintext)
-    print encrypted_data
-
-    # Later on when you need to decrypt, get these from your persistent storage.
-    decrypted_data = decrypt_data(aws_data, encrypted_data, ciphertext_blob)
-    print decrypted_data
-
-if __name__ == '__main__':
-    main()
+python aws_envelope_crypto.py
 ```
+
+### TODO
+1. pycrypto does not support AES.MODE_GCM; investigate pycryptodome
+  * https://github.com/wolf43/AES-GCM-example/blob/master/aes_gcm.py
+  * http://pycryptodome.readthedocs.io/en/latest/src/introduction.html
+
+### REFS
+1. https://gist.github.com/Spaider/8fd0c97fd4785011032bc8144d00b8cc
+2. https://boto3.readthedocs.io/en/latest/reference/services/kms.html#client
+3. https://www.dlitz.net/software/pycrypto/
