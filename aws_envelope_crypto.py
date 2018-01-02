@@ -31,10 +31,10 @@ def decrypt_data(aws_data, encrypted_data, ciphertext_blob):
 
 def main():
     # Add your account number / region / KMS Key ID here.
-    aws_data = {
+  aws_data = {
         'region': 'us-west-2',
-        'account_number': '1096135268162',
-        'key_id': 'd1a77a82-9846-4a55-a49c-d618cb546b84',
+        'account_number': '0000000000000',
+        'key_id': '00000000-0000-0000-0000-000000000000',
     }
 
     # And your super sekret message to envelope encrypt...
