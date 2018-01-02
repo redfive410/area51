@@ -37,7 +37,7 @@ pip install --user aws-encryption-sdk
 #### encryption example
 [aws_crypto.py](aws_crypto.py)
 ```
-python aws_crypto.py [aws_crypto.py](aws_crypto.py)
+python aws_crypto.py
 ```
 
 ### aws boto3 python
