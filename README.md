@@ -34,11 +34,10 @@ cat ~/tmp/encrypted.txt |openssl enc -d -aes256 -k fileb://home/jarmitage/tmp/pl
 ```
 pip install --user aws-encryption-sdk
 ```
-[aws_crypto.py](aws_crypto.py)
 #### encryption example
-
+[aws_crypto.py](aws_crypto.py)
 ```
-python aws_crypto.py
+python aws_crypto.py [aws_crypto.py](aws_crypto.py)
 ```
 
 ### aws boto3 python
@@ -48,6 +47,7 @@ pip install --user pycrypto
 ```
 
 #### envelope encryption example
+[aws_envelope_crypto.py](aws_envelope_crypto.py)
 ```
 python aws_envelope_crypto.py
 ```
